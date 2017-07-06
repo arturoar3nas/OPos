@@ -371,11 +371,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
                 description.append(value);
             }
         }
-
-
-
+        
         String id;
-
         if (description.length() == 0) {
             // No values then id is null
             id = null;

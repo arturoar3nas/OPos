@@ -75,3 +75,6 @@ Please see - http://www.posapps.io for more information
 31. Enhancement: Printer.Ticket + Printer.TicketPreview - Add Hostmachine/Terminal name
 32. Enhancement: User : Ticket : Customer now shown in current ticket display
 33. Enhancement: User : Ticket : Customer now shown in Layaway list
+=======
+# OPos
+>>>>>>> c7ca789c5c26db8c5bf88a0092288cb968d1d448
