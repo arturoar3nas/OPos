@@ -27,6 +27,7 @@ import com.openbravo.pos.printer.printer.DevicePrinterPrinter;
 import com.openbravo.pos.printer.screen.DeviceDisplayPanel;
 import com.openbravo.pos.printer.screen.DeviceDisplayWindow;
 import com.openbravo.pos.printer.screen.DevicePrinterPanel;
+import com.openbravo.pos.printer.tfhka.DeviceFiscalPrinterTfhka;
 import com.openbravo.pos.util.StringParser;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -83,13 +84,26 @@ public class DeviceTicket {
 
         // La impresora fiscal
         StringParser sf = new StringParser(props.getProperty("machine.fiscalprinter"));
-        String sFiscalType = sf.nextToken(':');
+        String sFiscalType = sf.nextToken(':');        
         String sFiscalParam1 = sf.nextToken(',');
+        
+        StringParser sfp = new StringParser(props.getProperty("machine.printer"));
+        String sFiscalType_machine = sfp.nextToken(':');
+        String sFiscalType_machine_Param = null;
+        for(int i = 0;i < 2;i++){
+            sFiscalType_machine_Param = sfp.nextToken(',');//iteramos para encontrar el com en la segunda pos
+        }
         try {
-            if ("javapos".equals(sFiscalType)) {
-                m_deviceFiscal = new DeviceFiscalPrinterJavaPOS(sFiscalParam1);
-            } else {
-                m_deviceFiscal = new DeviceFiscalPrinterNull();
+            if (null != sFiscalType_machine) switch (sFiscalType_machine) {
+                case "javapos":
+                    m_deviceFiscal = new DeviceFiscalPrinterJavaPOS(sFiscalParam1);
+                    break;
+                case "Tfhka":
+                    m_deviceFiscal = new DeviceFiscalPrinterTfhka(sFiscalType_machine_Param, null, sFiscalParam1);
+                    break;
+                default:
+                    m_deviceFiscal = new DeviceFiscalPrinterNull();
+                    break;
             }
         } catch (TicketPrinterException e) {
             m_deviceFiscal = new DeviceFiscalPrinterNull(e.getMessage());
