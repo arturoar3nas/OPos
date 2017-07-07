@@ -85,20 +85,26 @@ public class DeviceTicket {
 
         // La impresora fiscal
         StringParser sf = new StringParser(props.getProperty("machine.fiscalprinter"));
-        String sFiscalType = sf.nextToken(':');
+        String sFiscalType = sf.nextToken(':');        
         String sFiscalParam1 = sf.nextToken(',');
         
-        StringParser sf2 = new StringParser(props.getProperty("machine.printer"));
-        String sFiscalType2 = sf2.nextToken(':');
-        String sCom = sf2.nextToken(',');       
-        
+        StringParser sfp = new StringParser(props.getProperty("machine.printer"));
+        String sFiscalType_machine = sfp.nextToken(':');
+        String sFiscalType_machine_Param = null;
+        for(int i = 0;i < 2;i++){
+            sFiscalType_machine_Param = sfp.nextToken(',');//iteramos para encontrar el com en la segunda pos
+        }
         try {
-            if ("javapos".equals(sFiscalType2)) {
-                m_deviceFiscal = new DeviceFiscalPrinterJavaPOS(sFiscalParam1);
-            } else if ("Tfhka".equals(sFiscalType2)) {
-                m_deviceFiscal = new DeviceFiscalPrinterTfhka((String)"COM9",ses, /*indexCaja*/"string");
-            }else {
-                m_deviceFiscal = new DeviceFiscalPrinterNull();
+            if (null != sFiscalType_machine) switch (sFiscalType_machine) {
+                case "javapos":
+                    m_deviceFiscal = new DeviceFiscalPrinterJavaPOS(sFiscalParam1);
+                    break;
+                case "Tfhka":
+                    m_deviceFiscal = new DeviceFiscalPrinterTfhka(sFiscalType_machine_Param, ses, sFiscalParam1);
+                    break;
+                default:
+                    m_deviceFiscal = new DeviceFiscalPrinterNull();
+                    break;
             }
         } catch (TicketPrinterException e) {
             m_deviceFiscal = new DeviceFiscalPrinterNull(e.getMessage());
@@ -116,7 +122,7 @@ public class DeviceTicket {
         }
 
         try {
-         
+            
             switch (sDisplayType) {
                 case "screen":
                     m_devicedisplay = new DeviceDisplayPanel();
