@@ -18,6 +18,7 @@
 //    along with uniCenta oPOS.  If not, see <http://www.gnu.org/licenses/>.
 package com.openbravo.pos.printer;
 
+import com.openbravo.data.loader.Session;
 import com.openbravo.pos.forms.AppProperties;
 import com.openbravo.pos.printer.escpos.*;
 import com.openbravo.pos.printer.javapos.DeviceDisplayJavaPOS;
@@ -27,6 +28,7 @@ import com.openbravo.pos.printer.printer.DevicePrinterPrinter;
 import com.openbravo.pos.printer.screen.DeviceDisplayPanel;
 import com.openbravo.pos.printer.screen.DeviceDisplayWindow;
 import com.openbravo.pos.printer.screen.DevicePrinterPanel;
+import com.openbravo.pos.printer.tfhka.DeviceFiscalPrinterTfhka;
 import com.openbravo.pos.util.StringParser;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -77,7 +79,7 @@ public class DeviceTicket {
      * @param parent
      * @param props
      */
-    public DeviceTicket(Component parent, AppProperties props) {
+    public DeviceTicket(Component parent, AppProperties props, Session ses ) {
 
         PrinterWritterPool pws = new PrinterWritterPool();
 
@@ -85,10 +87,17 @@ public class DeviceTicket {
         StringParser sf = new StringParser(props.getProperty("machine.fiscalprinter"));
         String sFiscalType = sf.nextToken(':');
         String sFiscalParam1 = sf.nextToken(',');
+        
+        StringParser sf2 = new StringParser(props.getProperty("machine.printer"));
+        String sFiscalType2 = sf2.nextToken(':');
+        String sCom = sf2.nextToken(',');       
+        
         try {
-            if ("javapos".equals(sFiscalType)) {
+            if ("javapos".equals(sFiscalType2)) {
                 m_deviceFiscal = new DeviceFiscalPrinterJavaPOS(sFiscalParam1);
-            } else {
+            } else if ("Tfhka".equals(sFiscalType2)) {
+                m_deviceFiscal = new DeviceFiscalPrinterTfhka((String)"COM9",ses, /*indexCaja*/"string");
+            }else {
                 m_deviceFiscal = new DeviceFiscalPrinterNull();
             }
         } catch (TicketPrinterException e) {
