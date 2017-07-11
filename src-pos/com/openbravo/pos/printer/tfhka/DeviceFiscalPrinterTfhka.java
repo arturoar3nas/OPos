@@ -26,7 +26,7 @@ import com.openbravo.data.gui.*;
 import com.openbravo.format.Formats;
 
 import tfhka.*;
-import tfhka.ve.*;
+import tfhka.pa.*;
 
 /**
  *
@@ -318,14 +318,14 @@ public class DeviceFiscalPrinterTfhka extends javax.swing.JPanel implements Devi
                 }
 
                 String acumuladoTotalSystem = montoSystem[0] + "." + montoSystem[1].substring(0, 2);
-                log("Monto en Sistema = " + acumuladoTotalSystem + " :  Monto en Impresora Fiscal = " + S2Estado.getAmountPayable());
+                log("Monto en Sistema = " + acumuladoTotalSystem + " :  Monto en Impresora Fiscal = " + S2Estado.getAmountToPay());
 
                 //Verifico Status y Error
                 StatusErrorPrinter = this.tf.getPrinterStatus();
 
                 log(" Status = " + StatusErrorPrinter.getPrinterStatusCode() + " Error = " + StatusErrorPrinter.getPrinterErrorCode());
 
-                if (S2Estado.getAmountPayable() != Double.valueOf(acumuladoTotalSystem)) {
+                if (S2Estado.getAmountToPay()!= Double.valueOf(acumuladoTotalSystem)) {
 
                     log("No se registro la ultima linea");
 
@@ -378,7 +378,7 @@ public class DeviceFiscalPrinterTfhka extends javax.swing.JPanel implements Devi
 
         try {
             S2Estado = this.tf.getS2PrinterData();
-            double montoIF = S2Estado.getAmountPayable();
+            double montoIF = S2Estado.getAmountToPay();
             try {
                 Thread.sleep(5);
             } catch (java.lang.InterruptedException exp) {
@@ -1724,14 +1724,14 @@ public class DeviceFiscalPrinterTfhka extends javax.swing.JPanel implements Devi
                 }
 
                 String acumuladoTotalSystem = montoSystem[0] + "." + montoSystem[1].substring(0, 2);
-                log("Monto en Sistema = " + acumuladoTotalSystem + " :  Monto en Impresora Fiscal = " + S2Estado.getAmountPayable());
+                log("Monto en Sistema = " + acumuladoTotalSystem + " :  Monto en Impresora Fiscal = " + S2Estado.getAmountToPay());
 
                 //Verifico Status y Error
                 this.tf.getPrinterStatus();
 
                 log(" Status = " + StatusErrorPrinter.getPrinterStatusCode() + " Error = " + StatusErrorPrinter.getPrinterErrorCode());
 
-                if (S2Estado.getAmountPayable() != Double.valueOf(acumuladoTotalSystem)) {
+                if (S2Estado.getAmountToPay() != Double.valueOf(acumuladoTotalSystem)) {
 
                     log("No se registro la ultima linea");
                     isDevolucion = false;

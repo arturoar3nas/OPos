@@ -228,6 +228,7 @@ public class AppConfig implements AppProperties {
 //        m_propsconfig.setProperty("swing.defaultlaf", System.getProperty("swing.defaultlaf", "javax.swing.plaf.synth.SynthLookAndFeel"));        
         
         m_propsconfig.setProperty("machine.printer", "screen");
+        m_propsconfig.setProperty("machine.fiscalprinter", "Tfhka");//[0]ojo!!!
         m_propsconfig.setProperty("machine.printer.2", "Not defined");
         m_propsconfig.setProperty("machine.printer.3", "Not defined");
         m_propsconfig.setProperty("machine.printer.4", "Not defined");

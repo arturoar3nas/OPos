@@ -43,6 +43,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+
+
 /**
  *
  * @author JG uniCenta
@@ -82,6 +84,8 @@ public class TicketParser extends DefaultHandler {
     private String cUser;
     private String ticketId;
     private String pickupId;
+    
+    private String atributeAux = "";
     
     
     /** Creates a new instance of TicketParser
@@ -388,22 +392,90 @@ public class TicketParser extends DefaultHandler {
                 m_oOutputPrinter = null;
             }
             break;
-        case OUTPUT_FISCAL:
+            case OUTPUT_FISCAL:
             if ("fiscalreceipt".equals(qName)) {
                 m_printer.getFiscalPrinter().endReceipt();
                 m_iOutputType = OUTPUT_NONE;
             } else if ("line".equals(qName)) {
-                m_printer.getFiscalPrinter().printLine(text.toString(), m_dValue1, m_dValue2, attribute3);
-                text = null;               
+                if(!atributeAux.equals(""))
+                { 
+                    String comando = "";
+                    double monto = 0.0;
+                   
+                    if((atributeAux.substring(0,5)).equals("DESC "))
+                    {                  
+                        comando = "p-";
+                        monto = Double.valueOf(atributeAux.substring(5,10));
+                        m_dValue1 = m_dValue1/(1-(monto/100));
+                    }else if((atributeAux.substring(0,5)).equals("RECA "))
+                    {
+                        comando = "p+";
+                        monto = Double.valueOf(atributeAux.substring(5,10));
+                        m_dValue1 = m_dValue1/(1+(monto/100));
+                    }
+                    try{
+                    m_printer.getFiscalPrinter().printLine(text.toString(), m_dValue1, m_dValue2, attribute3);
+                    m_printer.getFiscalPrinter().printLine(comando, monto, 0.0,0);
+                    atributeAux = "";
+                    }catch(Exception pex)
+                {   atributeAux = "";
+                        throw new SAXException(); }
+                     
+                }else
+                {
+                	try{
+                	m_printer.getFiscalPrinter().printLine(text.toString(), m_dValue1, m_dValue2, attribute3);
+                }catch(Exception pex)
+                {  throw new SAXException(); }
+                }
+                text = null; 
+                try{
+                    Thread.sleep(10);
+                   }
+                   catch(java.lang.InterruptedException exp){}
             } else if ("message".equals(qName)) {
-                m_printer.getFiscalPrinter().printMessage(text.toString());
+                if((text.toString().substring(0,1)).equals("i") || (text.toString().substring(0,1)).equals("8"))
+                {m_printer.getFiscalPrinter().printMessage(text.toString());} 
+                else
+                {
+                m_printer.getFiscalPrinter().printMessage("3");
+                String comando = "";
+                String monto = "0000";
+                monto = text.toString().substring(5,10);
+                              
+                   if(monto.substring(1,2).equals("."))
+                   {
+                       monto = "0" + monto;
+                   }
+                
+                  monto = monto.replace(".", "");
+                   
+                    if((text.toString().substring(0,5)).equals("DESC "))
+                    {                  
+                        comando = "p-";                 
+                    }else if((text.toString().substring(0,5)).equals("RECA "))
+                    {
+                        comando = "p+";                        
+                    }
+                     monto = monto.replace(" ", "");
+                    while(monto.length()<4)
+                    { monto = monto + "0";}
+                
+                    m_printer.getFiscalPrinter().printMessage(comando+monto);
+                }
                 text = null;               
             } else if ("total".equals(qName)) {
+                try
+                {
                 m_printer.getFiscalPrinter().printTotal(text.toString(), m_dValue1);
-                text = null;               
+                text = null;      
+                }
+                catch(Exception pex)//tfhka.PrinterException
+                {  text = null;
+                    throw new SAXException(); }
             }
             break;
-        }          
+        }       
     }
     
     @Override

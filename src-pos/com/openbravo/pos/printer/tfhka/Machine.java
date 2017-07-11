@@ -10,13 +10,13 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.*;
-import tfhka.ve.*;
+import tfhka.pa.*;
 
 public class Machine {
 //Atributos de Clase
 	private int Id_machine;
 	private String Serial;
-	private tfhka.ve.Tfhka FiscalPrinter;
+	private tfhka.pa.Tfhka FiscalPrinter;
 	private Date fecha;
 	private int Ultima_FAC;
 	private int Ultima_NC;
@@ -38,7 +38,7 @@ public class Machine {
 		return Serial;
 	}
 
-	public tfhka.ve.Tfhka getFiscalPrinter() {
+	public tfhka.pa.Tfhka getFiscalPrinter() {
 		return FiscalPrinter;
 	}
 
@@ -62,7 +62,7 @@ public class Machine {
 		return Observaciones;
 	}
 //Contructores
-	public Machine(tfhka.ve.Tfhka tf, Session s)
+	public Machine(tfhka.pa.Tfhka tf, Session s)
 	{
 		this.sesion = s;
 		this.FiscalPrinter = tf;
@@ -464,14 +464,15 @@ public class Machine {
     public boolean isZ_X_cero()
     {
     	double monto = 0.0;
-    	monto = ReportePC.getAdditionalRate3Sale()+ ReportePC.getAdditionalRate3Tax();
-    	monto = monto + ReportePC.getAdditionalRateDevolution() + ReportePC.getAdditionalRateTaxDevolution();
-    	monto = monto + ReportePC.getFreeSalesTax() + ReportePC.getFreeTaxDevolution();
-    	monto = monto + ReportePC.getGeneralRate1Sale() + ReportePC.getGeneralRate1Tax();
-    	monto = monto + ReportePC.getGeneralRateDevolution() + ReportePC.getGeneralRateTaxDevolution();
-    	monto = monto + ReportePC.getReducedRate2Sale()  + ReportePC.getReducedRate2Tax();
-    	monto = monto + ReportePC.getReducedRateDevolution()  + ReportePC.getReducedRateTaxDevolution();
-    	
+        //![0]
+    	//monto = ReportePC.getAdditionalRate3Sale()+ ReportePC.getAdditionalRate3Tax();
+    	//monto = monto + ReportePC.getAdditionalRateDevolution() + ReportePC.getAdditionalRateTaxDevolution();
+//    	monto = monto + ReportePC.getFreeSalesTax() + ReportePC.getFreeTaxDevolution();
+//    	monto = monto + ReportePC.getGeneralRate1Sale() + ReportePC.getGeneralRate1Tax();
+//    	monto = monto + ReportePC.getGeneralRateDevolution() + ReportePC.getGeneralRateTaxDevolution();
+//    	monto = monto + ReportePC.getReducedRate2Sale()  + ReportePC.getReducedRate2Tax();
+//    	monto = monto + ReportePC.getReducedRateDevolution()  + ReportePC.getReducedRateTaxDevolution();
+        //![0]    	
     	if(monto == 0.0)
     	{return true;}
     	else
