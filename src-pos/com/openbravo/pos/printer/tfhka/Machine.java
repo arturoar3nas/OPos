@@ -589,7 +589,7 @@ public class Machine {
         this.Tasas =  new  TaxInfo[4];
         
     	try{
-    	S1Estado = this.FiscalPrinter.getS1PrinterData();
+        S1Estado = this.FiscalPrinter.getS1PrinterData();
 	      Thread.sleep(35);
         S3Estado = this.FiscalPrinter.getS3PrinterData();
     	      Thread.sleep(35);
@@ -608,18 +608,15 @@ public class Machine {
     		  this.Tasas[3] = new TaxInfo("003", "Tasa 3", "003", "003", "", S3Estado.getTax3()/100, false, 0);
     		 
     		  
-    		  //Tasa1
-    		 
+    		  //Tasa1    		 
     		   if ( S3Estado.getTypeTax1()!= 2)
     		   { this.Tasas[1].setCascade(true);
     		     this.Tasas[0].setCascade(true);
     		   }
-    		   //Tasa2
-    		  
+    		   //Tasa2    		  
     		   if ( S3Estado.getTypeTax2()!= 2)
     		   { this.Tasas[2].setCascade(true);}
-    		   //Tasa3
-    		   
+    		   //Tasa3    		   
     		   if ( S3Estado.getTypeTax3()!= 2)
     		   { this.Tasas[3].setCascade(true);}
     		   
