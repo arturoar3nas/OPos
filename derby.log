@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Tue Jul 25 11:30:13 GMT-04:00 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-015d-7a5e-b3a6-0000064ce9d8 
-on database directory C:\Users\aarenas.FACTORYHKA\unicentaopos-database  with class loader sun.misc.Launcher$AppClassLoader@14dad5dc 
+Tue Jul 25 16:31:02 GMT-04:00 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-015d-7b72-1a7f-000006a8fc78 
+on database directory C:\Users\aarenas.FACTORYHKA\unicentaopos-database  with class loader sun.misc.Launcher$AppClassLoader@7eda2dbb 
 Loaded from file:/C:/Users/aarenas.FACTORYHKA/Documents/OPos/unicenta/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_51-b16
