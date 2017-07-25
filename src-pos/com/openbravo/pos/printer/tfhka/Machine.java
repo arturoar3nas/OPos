@@ -260,7 +260,7 @@ public class Machine {
     	  int i = 0;
     	  for(TaxInfo tax : taxas) {                  
     		  double a = tax.getRate();
-    		  double b = this.Tasas[i].getRate();
+     		  double b = this.Tasas[i].getRate();
     		  boolean x = tax.isCascade();
     		  boolean y = this.Tasas[i].isCascade();
     		  
@@ -604,8 +604,8 @@ public class Machine {
     		  //Tasa0 � Execento
     		  this.Tasas[0] = new TaxInfo("000", "Tasa 0", "000", "000", "", 0.00, false, 0);
     		  this.Tasas[1] = new TaxInfo("001", "Tasa 1", "001", "001", "", S3Estado.getTax1()/100, false, 0);
-    		  this.Tasas[2] = new TaxInfo("002", "Tasa 2", "002", "002", "", S3Estado.getTax2()/100, false, 0);
-    		  this.Tasas[3] = new TaxInfo("003", "Tasa 3", "003", "003", "", S3Estado.getTax3()/100, false, 0);
+    		  this.Tasas[2] = new TaxInfo("002", "Tasa 2", "002", "002", "", S3Estado.getTax3()/100, false, 0);
+    		  this.Tasas[3] = new TaxInfo("003", "Tasa 3", "003", "003", "", S3Estado.getTax2()/100, false, 0);
     		 
     		  
     		  //Tasa1    		 
