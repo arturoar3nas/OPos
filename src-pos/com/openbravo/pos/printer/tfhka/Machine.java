@@ -10,6 +10,8 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tfhka.pa.*;
 
 public class Machine {
@@ -62,12 +64,13 @@ public class Machine {
 		return Observaciones;
 	}
 //Contructores
-	public Machine(tfhka.pa.Tfhka tf, Session s)
+	public Machine(tfhka.pa.Tfhka tf, Session s) 
 	{
 		this.sesion = s;
 		this.FiscalPrinter = tf;
 		this.SubirData();
 		this.EstablecerMediosPagos();
+                this.cancelInvoidOpen();
 	}
 	
 
@@ -76,6 +79,15 @@ public class Machine {
 	 * Inserta un serial a la tabla Machine de la BD
 	 * 
 	 */
+    public int cancelInvoidOpen() 
+    {
+            try {
+                this.FiscalPrinter.SendCmd("7");
+            } catch (PrinterException ex) {
+                Logger.getLogger(Machine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return 0;
+    }
     public int CargarSerial()
     {     	
     	++this.Id_machine;      
@@ -602,11 +614,11 @@ public class Machine {
     		  this.Serial = S1Estado.getRegisteredMachineNumber();
     		  this.fecha = S1Estado.getCurrentPrinterDateTime();
     		  //Tasa0 � Execento
-    		  this.Tasas[0] = new TaxInfo("000", "Tasa 0", "000", "000", "", 0.00, false, 0);
-    		  this.Tasas[1] = new TaxInfo("001", "Tasa 1", "001", "001", "", S3Estado.getTax1()/100, false, 0);
-    		  this.Tasas[2] = new TaxInfo("002", "Tasa 2", "002", "002", "", S3Estado.getTax3()/100, false, 0);
-    		  this.Tasas[3] = new TaxInfo("003", "Tasa 3", "003", "003", "", S3Estado.getTax2()/100, false, 0);
-    		 
+    		  
+    		  this.Tasas[0] = new TaxInfo("001", "Tasa 1", "001", "001", "", S3Estado.getTax1()/100, false, 0);
+    		  this.Tasas[1] = new TaxInfo("002", "Tasa 2", "002", "002", "", S3Estado.getTax2()/100, false, 0);
+    		  this.Tasas[2] = new TaxInfo("003", "Tasa 3", "003", "003", "", S3Estado.getTax3()/100, false, 0);
+    		  this.Tasas[3] = new TaxInfo("000", "Tasa 0", "000", "000", "", 0.00, false, 0);
     		  
     		  //Tasa1    		 
     		   if ( S3Estado.getTypeTax1()!= 2)
